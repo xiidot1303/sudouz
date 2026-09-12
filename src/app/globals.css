@@ -2,50 +2,86 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * SUDO brand palette
+ * ------------------
+ * Ink   #231f20  oklch(0.2442 0.0064 0.59)   — brand dark background
+ * Mint  #1feace  oklch(0.8412 0.1492 179.69) — brand accent
+ *
+ * Contrast notes that drive the two themes:
+ *   mint on ink    10.65:1  -> mint is safe as text on dark
+ *   mint on white   1.53:1  -> mint must NEVER be text on light
+ *   ink on mint    10.65:1  -> dark text on mint fills is the button pattern
+ * So light mode uses a darkened mint (--brand-mint-deep) wherever the accent
+ * carries text, and reserves pure mint for fills and decoration.
+ */
+
 :root {
   --radius: 0.625rem;
 
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  /* Raw brand constants — identical in both themes. */
+  --brand-ink: oklch(0.2442 0.0064 0.59);
+  --brand-mint: oklch(0.8412 0.1492 179.69);
+  --brand-mint-deep: oklch(0.58 0.1174 179.69);
+
+  /* Light theme */
+  --background: oklch(0.9911 0.0018 180);
+  --foreground: oklch(0.2442 0.0064 0.59);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: var(--foreground);
+
+  /* Primary = brand ink; mint is the fill, ink the text on it. */
+  --primary: var(--brand-ink);
+  --primary-foreground: oklch(0.9911 0.0018 180);
+
+  --secondary: oklch(0.9557 0.0113 180);
+  --secondary-foreground: var(--brand-ink);
+  --muted: oklch(0.9557 0.0113 180);
+  --muted-foreground: oklch(0.502 0.0103 200);
+
+  /* Accent-as-surface: pure mint behind ink-colored text. */
+  --accent: var(--brand-mint);
+  --accent-foreground: var(--brand-ink);
+  /* Accent-as-text: darkened so it clears 4.5:1 on light backgrounds. */
+  --accent-text: var(--brand-mint-deep);
+
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.9067 0.0089 190);
+  --input: oklch(0.9067 0.0089 190);
+  --ring: var(--brand-mint-deep);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  /* Dark theme — the brand-native mode. */
+  --background: var(--brand-ink);
+  --foreground: oklch(0.9645 0.0053 180);
+  --card: oklch(0.2799 0.0069 0.59);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.2799 0.0069 0.59);
+  --popover-foreground: var(--foreground);
+
+  /* On dark, mint becomes the primary fill with ink text on top. */
+  --primary: var(--brand-mint);
+  --primary-foreground: var(--brand-ink);
+
+  --secondary: oklch(0.3234 0.0076 0.59);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.3234 0.0076 0.59);
+  --muted-foreground: oklch(0.7136 0.0119 190);
+
+  --accent: var(--brand-mint);
+  --accent-foreground: var(--brand-ink);
+  /* Mint clears 10.65:1 on ink, so it is text-safe here as-is. */
+  --accent-text: var(--brand-mint);
+
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 16%);
-  --ring: oklch(0.556 0 0);
+  --ring: var(--brand-mint);
 }
 
 @theme inline {
@@ -63,11 +99,16 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-text: var(--accent-text);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* Raw brand colors, for cases that must not flip with the theme. */
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-mint: var(--brand-mint);
 
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
@@ -85,10 +126,46 @@
 
   html {
     scroll-behavior: smooth;
+    /* Keep anchored sections clear of the sticky header. */
+    scroll-padding-top: 4rem;
+    /* Stop iOS Safari from inflating text in landscape. */
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    /* Guard against any single element forcing a horizontal scrollbar. */
+    overflow-x: hidden;
+  }
+
+  /* Selection picks up the brand accent. */
+  ::selection {
+    background: var(--brand-mint);
+    color: var(--brand-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Tap targets that stay comfortable on touch screens. */
+  @media (pointer: coarse) {
+    .tap-target {
+      min-height: 44px;
+      min-width: 44px;
+    }
   }
 }

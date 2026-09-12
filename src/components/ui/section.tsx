@@ -16,15 +16,23 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section id={id} className={cn("scroll-mt-20 py-16 sm:py-24", className)}>
+    <section
+      id={id}
+      className={cn("scroll-mt-16 py-14 sm:py-20 lg:py-24", className)}
+    >
       <Container>
         {title ? (
-          <header className="mb-10">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          <header className="mb-8 sm:mb-12">
+            <h2 className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl lg:text-4xl">
               {title}
+              <span aria-hidden className="text-accent-text">
+                .
+              </span>
             </h2>
             {subtitle ? (
-              <p className="mt-2 text-muted-foreground">{subtitle}</p>
+              <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+                {subtitle}
+              </p>
             ) : null}
           </header>
         ) : null}

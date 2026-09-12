@@ -7,12 +7,17 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        /* Brand fill: mint in dark mode, ink in light — the token flips. */
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        /* Always-mint call to action with ink text: 10.65:1 in both themes. */
+        brand:
+          "bg-brand-mint text-brand-ink hover:bg-brand-mint/90 focus-visible:ring-brand-mint",
         outline:
-          "border border-border bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-foreground underline-offset-4 hover:underline",
+          "border border-border bg-background hover:border-accent hover:bg-accent/10 hover:text-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent/10 hover:text-foreground",
+        link: "text-accent-text underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-4 py-2",

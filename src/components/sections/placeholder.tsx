@@ -4,7 +4,7 @@
  */
 export function Placeholder({ label }: { label: string }) {
   return (
-    <div className="rounded-lg border border-dashed border-border p-10 text-center text-sm text-muted-foreground">
+    <div className="rounded-lg border border-dashed border-border px-6 py-10 text-center text-sm text-muted-foreground sm:px-10 sm:py-14">
       {label}
     </div>
   );

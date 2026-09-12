@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
@@ -13,6 +13,20 @@ import { SiteFooter } from "@/components/layout/site-footer";
 
 const geistSans = Geist({ variable: "--font-sans", subsets: ["latin", "cyrillic"] });
 const geistMono = Geist_Mono({ variable: "--font-mono", subsets: ["latin", "cyrillic"] });
+
+/**
+ * `themeColor` tints the mobile browser chrome: brand ink in dark mode,
+ * the near-white page background in light mode.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fbfcfc" },
+    { media: "(prefers-color-scheme: dark)", color: "#231f20" },
+  ],
+};
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

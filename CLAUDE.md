@@ -44,7 +44,8 @@ src/
 │       ├── page.tsx         # home page, composed of sections
 │       └── not-found.tsx
 ├── components/
-│   ├── layout/              # site-header, site-footer
+│   ├── brand/logo.tsx       # SUDO wordmark
+│   ├── layout/              # site-header, site-footer, mobile-nav, nav-items
 │   ├── sections/            # hero, placeholder — one file per page section
 │   ├── ui/                  # button, container, section primitives
 │   ├── language-switcher.tsx
@@ -86,6 +87,97 @@ src/
 - **Middleware.** Next.js 16 renamed `middleware.ts` to `proxy.ts`; use
   `src/proxy.ts`.
 
+## Brand
+
+The brand is **SUDO** — a play on the Unix `sudo` command, fitting for an
+engineer's site. It is the wordmark; "Shakhzod Yuldoshev" is the person's name
+and appears as the hero headline, not as the logo.
+
+### Logo
+
+Rendered by [src/components/brand/logo.tsx](src/components/brand/logo.tsx) as
+live text in the mono typeface, not an image, so it stays sharp at any size,
+inherits the current text color, and remains selectable. A mint block follows
+the wordmark as a terminal-style cursor. Pass `showCursor={false}` for contexts
+where the block is noise.
+
+### Colors
+
+| Token        | Hex       | OKLCH                        | Role                       |
+| ------------ | --------- | ---------------------------- | -------------------------- |
+| Brand ink    | `#231f20` | `oklch(0.2442 0.0064 0.59)`  | Dark background, text on mint |
+| Brand accent | `#1feace` | `oklch(0.8412 0.1492 179.69)` | Accent, CTAs, highlights   |
+
+Contrast measurements that drive the whole system:
+
+| Pair            | Ratio     | Consequence                                  |
+| --------------- | --------- | -------------------------------------------- |
+| mint on ink     | 10.65:1   | Mint is safe as text on dark                  |
+| ink on mint     | 10.65:1   | Dark text on mint fills — the button pattern  |
+| mint on white   | **1.53:1** | Mint must **never** be text on light          |
+
+**The one rule to remember: never put pure `#1feace` text on a light
+background.** It fails WCAG badly. Light mode therefore uses a darkened mint
+(`--brand-mint-deep`) wherever the accent carries text, and reserves pure mint
+for fills and decoration.
+
+### Using the tokens
+
+- `bg-accent` + `text-accent-foreground` — mint surface with ink text. Safe in
+  both themes.
+- `text-accent-text` — accent-colored **text**. Resolves to deep mint in light
+  mode and pure mint in dark, so it is always readable. Use this, never
+  `text-accent`, for colored text.
+- `bg-brand-mint` / `text-brand-ink` — the raw brand colors, which do *not*
+  flip with the theme. For elements that must stay on-brand in both, like the
+  primary CTA (`<Button variant="brand">`).
+- `bg-primary` — flips: ink in light mode, mint in dark.
+
+Both themes are brand-derived: dark mode uses brand ink as the page background
+and is the brand-native mode; light mode uses a near-white with a faint mint
+cast so it still reads as the same family. The CSS source of truth is the token
+block at the top of [src/app/globals.css](src/app/globals.css); the hexes are
+mirrored in `siteConfig.colors` for non-CSS consumers (OG images, manifest).
+
+## Responsive design
+
+Mobile-first, verified in a real browser rather than assumed.
+
+- **Breakpoints.** Tailwind defaults. The layout shifts at `md` (768px), where
+  the hamburger is replaced by the inline nav.
+- **Gutters.** `Container` holds a 16px minimum side gutter at every width
+  (`px-4 sm:px-6 lg:px-8`), capped at `max-w-5xl`.
+- **Typography.** The hero headline uses `clamp(2rem, 8vw, 4.5rem)` so it scales
+  continuously instead of jumping at breakpoints. Section headings step through
+  `text-2xl sm:text-3xl lg:text-4xl`.
+- **Tap targets.** The `.tap-target` utility enforces a 44×44px minimum, applied
+  only under `@media (pointer: coarse)` so it does not bloat desktop controls.
+- **Mobile nav.** [mobile-nav.tsx](src/components/layout/mobile-nav.tsx) is a
+  full-height drawer below the header. It locks body scroll while open, closes
+  on Escape or on navigating, and holds the language switcher (which is hidden
+  in the header below `sm` to save width).
+- **Overflow guard.** `body` carries `overflow-x: hidden` as a backstop, but the
+  layout is built not to need it — verified at 320px in all three locales.
+- **Reduced motion.** A `prefers-reduced-motion` block neutralizes animations
+  and smooth scrolling.
+
+### Gotcha: fixed positioning inside the header
+
+The header uses `backdrop-blur`. **A `backdrop-filter` makes an element a
+containing block for `position: fixed` descendants**, so a fixed overlay
+rendered inside the header is positioned against the header's 64px box and
+collapses. The mobile drawer therefore portals to `document.body`. Any future
+overlay (modal, popover, command palette) triggered from the header must do the
+same.
+
+### Verifying responsiveness
+
+There is no committed test suite yet. Changes to layout were checked with a
+throwaway Playwright script across 320/390/768/1440px in both themes, asserting:
+no horizontal overflow, no element past the viewport, a >=16px gutter, correct
+nav mode per breakpoint, drawer behavior, 44px tap targets, and that computed
+colors equal the brand hexes. Worth reproducing after significant layout work.
+
 ## Deployment (Vercel)
 
 Zero-config: Vercel detects Next.js and pnpm automatically.
@@ -100,20 +192,50 @@ if the final domain differs, since it seeds `metadataBase`, the sitemap and robo
 
 ## Status
 
-Scaffolding is complete and verified: `pnpm build` and `pnpm lint` both pass,
-and `/`, `/uz`, `/ru` all render with correct `lang` attributes and translated
-copy. Section content is placeholder — the `src/content/*` modules are
-intentionally empty arrays awaiting real material.
+Scaffolding and brand design are complete and verified: `pnpm build` and
+`pnpm lint` pass, and the layout was checked in a real browser at
+320/390/768/1440px in both themes with no failures. Section content is still
+placeholder — the `src/content/*` modules are intentionally empty arrays
+awaiting real material.
 
 ### Open items
 
 - [ ] Real content: projects, clients, experience, skills, about text
-- [ ] Profile photo / OG image (`public/`), favicon
+- [ ] Profile photo / OG image (`public/`), favicon in brand colors
 - [ ] Social links in `siteConfig.socials`
 - [ ] Confirm the production domain
 - [ ] Per-project detail pages (`/[locale]/projects/[slug]`), if wanted
 
 ## Changelog
+
+### 2026-09-12 — SUDO brand identity and responsive pass
+
+- Adopted the **SUDO** wordmark as the logo, replacing the plain `sudo.uz`
+  text in the header, and added it to the footer. Built as a text component
+  with a mint terminal-cursor block.
+- Rebuilt the color system around brand ink `#231f20` and mint `#1feace`.
+  Measured contrast first and found mint fails on light backgrounds (1.53:1),
+  so the system adds a separate `--accent-text` token that darkens the mint in
+  light mode while keeping pure mint in dark. Dark mode uses brand ink as the
+  page background.
+- Added a `brand` button variant (always mint fill + ink text, 10.65:1 in both
+  themes) and pointed accent hovers, focus rings and text selection at the
+  brand color.
+- Made the site properly responsive: a full-height mobile drawer with scroll
+  lock and Escape-to-close, `clamp()` hero typography, a 44px `.tap-target`
+  utility gated to touch devices, tightened section rhythm, and a
+  `prefers-reduced-motion` block.
+- Added mobile viewport metadata: `viewportFit: "cover"` and per-scheme
+  `themeColor` so mobile browser chrome picks up the brand colors.
+- **Fixed:** the mobile drawer rendered at zero height. The header's
+  `backdrop-blur` makes it a containing block for fixed descendants, so the
+  drawer was sized against the 64px header. It now portals to `document.body`.
+  Documented under "Gotcha: fixed positioning inside the header".
+- Verified in Chromium across 320/390/768/1440px × light/dark: no horizontal
+  overflow, 16px gutters held, correct nav per breakpoint, drawer behavior,
+  tap-target sizes, and computed colors matching the brand hexes exactly.
+  Also confirmed no overflow in all three locales at 320px, including the
+  longer Uzbek and Cyrillic headlines.
 
 ### 2026-09-12 — Project scaffolded
 
