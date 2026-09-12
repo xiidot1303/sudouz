@@ -21,7 +21,10 @@
       "solutions": "man solutions"
     },
     "services": "Services",
-    "solutions": "Solutions"
+    "solutions": "Solutions",
+    "allSolutions": "All solutions",
+    "allServices": "All services",
+    "backTo": "Back to"
   },
   "hero": {
     "greeting": "Hi, I'm",
@@ -50,7 +53,8 @@
   "services": {
     "title": "What I build",
     "subtitle": "The systems behind the results",
-    "deliveredWith": "Typically built with"
+    "deliveredWith": "Typically built with",
+    "learnMore": "Learn more"
   },
   "solutions": {
     "title": "What I can fix",
@@ -105,5 +109,24 @@
   },
   "common": {
     "empty": "No entries yet — content coming soon."
+  },
+  "detail": {
+    "enquirySubject": "Enquiry",
+    "ctaPrimary": "Request a free consultation",
+    "ctaSecondary": "See contact details",
+    "microFree": "Free consultation",
+    "microNoCommitment": "No commitment",
+    "microWritten": "Written scope and price",
+    "microContract": "Official contract",
+    "problemTitle": "The problem",
+    "includesTitle": "What you get",
+    "guaranteesTitle": "What every project includes",
+    "processTitle": "How the work runs",
+    "integrationsTitle": "Works with what you already use",
+    "integrationsBody": "Nothing has to be thrown away. Existing systems can keep running and exchange data with the new one.",
+    "faqTitle": "Questions people ask",
+    "relatedTitle": "Related",
+    "finalCtaTitle": "Thinking about {subject}?",
+    "finalCtaBody": "Tell me how the work happens now and what is going wrong. If I can help, you get a written scope and a fixed price. If I cannot, I will say so."
   }
 }

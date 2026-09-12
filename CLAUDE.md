@@ -46,7 +46,8 @@ src/
 ├── components/
 │   ├── brand/logo.tsx       # SUDO wordmark
 │   ├── terminal/            # prompt, cursor, typing, terminal window
-│   ├── layout/              # site-header, site-footer, mobile-nav, nav-items
+│   ├── detail/              # shared detail-page layout
+│   ├── layout/              # header, footer, desktop-nav, mobile-nav
 │   ├── sections/            # hero, about, solutions, services, team, ...
 │   ├── ui/                  # button, container, section primitives
 │   ├── language-switcher.tsx
@@ -57,6 +58,9 @@ src/
 │   ├── company.ts           # Venons — employer facts, products, stats
 │   ├── services.ts          # what he builds (ERP, CRM, bots, ...)
 │   ├── solutions.ts         # what he fixes (warehouse, sales, HR, ...)
+│   ├── detail/              # long-form copy, one file per page
+│   ├── guarantees.ts        # the four confirmed commitments + integrations
+│   ├── process.ts           # the six delivery steps
 │   ├── types.ts             # Project, Client, ExperienceItem, SkillGroup
 │   ├── projects.ts          # (empty — awaiting content)
 │   ├── clients.ts           # (empty — awaiting content)
@@ -151,10 +155,15 @@ mirrored in `siteConfig.colors` for non-CSS consumers (OG images, manifest).
 Mobile-first, verified in a real browser rather than assumed.
 
 - **Breakpoints.** Tailwind defaults. The inline nav appears at `lg`
-  (1024px); below that the hamburger drawer is used. It was `md` until the
-  nav grew to eight items, which overflowed the header at 768px in all three
-  locales — Russian and Uzbek labels are longer than the English ones, so
-  **re-measure at 768/1024px in every locale after adding a nav item.**
+  (1024px); below that the hamburger drawer is used. Russian and Uzbek labels
+  run longer than English, so **re-measure at 768/1024px in every locale after
+  adding a nav item** — an eight-item bar once overflowed at 768px in all
+  three locales while looking fine in English alone.
+- **Navigation is four items:** Solutions, Services, About, Contact. Solutions
+  and Services open dropdowns listing their detail pages
+  ([desktop-nav.tsx](src/components/layout/desktop-nav.tsx)); the drawer
+  expands them inline. Keep the bar at four — the long lists belong in the
+  menus, not the header.
 - **Gutters.** `Container` holds a 16px minimum side gutter at every width
   (`px-4 sm:px-6 lg:px-8`), capped at `max-w-5xl`.
 - **Typography.** The hero headline uses `clamp(2rem, 8vw, 4.5rem)` so it scales
@@ -311,6 +320,101 @@ introducing a new name — unmapped names silently fall back to `Boxes`.
 
 No component edits are needed — both sections render from the arrays.
 
+## Detail pages
+
+Every solution and service has its own page. Thirteen in total, three locales
+each, all statically prerendered.
+
+| Route                      | Source                                    |
+| -------------------------- | ----------------------------------------- |
+| `/solutions`               | index, cards from `solutions.ts`          |
+| `/solutions/[slug]`        | `solutions.ts` + `detail/<slug>.ts`       |
+| `/services`                | index, cards from `services.ts`           |
+| `/services/[slug]`         | `services.ts` + `detail/<slug>.ts`        |
+| `/about`                   | About + Experience + Team sections        |
+
+### Page structure
+
+All detail pages share [DetailPage](src/components/detail/detail-page.tsx),
+whose section order follows what research of real provider sites found works:
+
+1. Back link, shell prompt, title, lead, CTA + risk-reversal microcopy
+2. **The problem** — three paragraphs, before any capability talk
+3. **What you get** — six concrete capabilities, then four outcomes
+4. **What every project includes** — the four guarantees
+5. **How the work runs** — the six process steps
+6. **Works with what you already use** — named integrations
+7. **Questions people ask** — four FAQs
+8. **Related** — cross-links between solutions and services
+9. Final CTA with four-item microcopy
+
+Sections 4–6 come from shared content and appear on every page, so a page is
+never thin even before its long-form copy is written.
+
+### Long-form content
+
+`src/content/detail/<name>.ts` exports a `DetailContent` object;
+[detail/index.ts](src/content/detail/index.ts) maps slugs to them.
+
+**The map keys must match the slugs in `solutions.ts` / `services.ts`,** which
+is not always the filename: `online-store` → `onlineStore`, `telegram-bots` →
+`telegramBots`. A missing key is silently skipped — the page still renders
+from its short summary, with no error — so verify the mapping after adding a
+page rather than trusting the build.
+
+A detail file has `lead`, `problem` (3 paragraphs), `includes` (6 items),
+`outcomes` (4), and `faq` (4), each in all three locales.
+
+## Writing copy for this site
+
+The copy follows patterns taken from real IT provider sites. Enterprise
+consultancy copy (Itransition, Netguru) is **the wrong model** — those firms
+lean on brand recognition that a solo developer does not have. The closer
+model is a solo operator selling to SME owners, where **transparency
+substitutes for brand**.
+
+### Rules
+
+- **First person singular.** "I build", "I migrate", "I train" — never "we"
+  or "our team". One person does this work; pretending otherwise is the first
+  thing a prospect will catch.
+- **"You" density.** If a paragraph contains no "you" or "your", rewrite it.
+- **Concrete over abstract.** Name real things: 1C, Excel, Telegram, Payme,
+  Click, Uzum, Bitrix24, Billz, Asl Belgisi, notebooks, group chats. A named
+  system is worth more than any adjective.
+- **Problem before capability.** Lead with the situation the reader is in.
+- **Answer objections directly.** FAQ answers open with "Yes." or "No.", then
+  the specifics.
+- **No invented proof.** Never add prices, client names, project counts, years
+  or statistics that have not been confirmed.
+
+### Banned phrases
+
+These appear on nearly every generic IT site and are checked for:
+
+> cutting-edge · state-of-the-art · seamless · unlock the potential ·
+> leveraging · world-class · end-to-end · full-cycle · digital transformation ·
+> innovative · maximum efficiency · empowering · elevate your business ·
+> individual approach · streamline · revolutionize · game-changing ·
+> best-in-class · synergy · holistic
+
+Replace every abstract claim with a falsifiable specific: not "seamless
+integration" but "connects to 1C and keeps exchanging data"; not "we provide
+support" but "bugs found in the first 30 days are fixed free of charge".
+
+### Guarantees — confirmed, do not extend
+
+[src/content/guarantees.ts](src/content/guarantees.ts) holds the four
+commitments Shakhzod confirmed: an official contract, a fixed price agreed
+before work starts, deployment with on-site staff training, and 30 days of
+free bug fixes. **Source-code handover is deliberately absent** — it was not
+among the commitments he confirmed. Do not add to this list without asking
+him; these are promises to real customers.
+
+Pricing is intentionally not published. The CTA offers a free consultation and
+a written scope instead. If real figures are supplied later, a price row on
+each detail page is the highest-converting place for them.
+
 ## Shakhzod and Venons
 
 Two distinct identities live on this site; keep them separate.
@@ -371,26 +475,80 @@ if the final domain differs, since it seeds `metadataBase`, the sitemap and robo
 
 ## Status
 
-The shell, brand system, terminal theme, and the Hero, About, Solutions,
-Services and Team sections are complete and verified: `pnpm build` and
-`pnpm lint` pass, and the layout, typing animation, offering content and all
-three locales were checked in a real browser at 320/390/768/1440px in both
-themes. Projects, Clients and Experience are still placeholders — their
-`src/content/*` modules are intentionally empty arrays awaiting real material.
+The site is structurally complete. Hero, About, Solutions and Services
+sections, thirteen detail pages, the About page and the four-item navigation
+are all built and verified: `pnpm build` and `pnpm lint` pass, and the layout,
+navigation, typing animation and all three locales were checked in a real
+browser. Projects and Clients remain placeholders — their `src/content/*`
+modules are intentionally empty arrays.
+
+### Needs Shakhzod's review
+
+The detail-page copy was written from research, not dictation. These claims
+were made on his behalf and should be confirmed before the site goes live:
+
+- [ ] **Asl Belgisi** handling (accounting, e-commerce) — the copy is hedged,
+      but confirm the real scope
+- [ ] **Instagram automation** (clients) — hedged on platform rules; confirm
+- [ ] **Fingerprint terminals** (HR) — implies hardware integration
+- [ ] **Offline sales app** (sales) — the offline promise is repeated from
+      warehouse; confirm it holds there too
+- [ ] **Uzum Market stock sync** and **Billz** as a stock source (online store)
+- [ ] **Fiscal receipts** (e-commerce)
+- [ ] **Merchant accounts** for Telegram payments; **store accounts** for
+      mobile ("you own the developer accounts")
+- [ ] **AI accuracy commitment** — the AI page promises to measure accuracy on
+      real documents before launch and drop the task if it does not clear the
+      bar. That is a real commitment.
+- [ ] **Native review of the Uzbek and Russian copy** — written as genuine
+      translations, but no native speaker has signed them off
 
 ### Open items
 
 - [ ] Real content: projects, clients, experience, skills
-- [ ] Shakhzod's job title at Venons and the year he joined (see
-      "Shakhzod and Venons")
+- [ ] Shakhzod's job title at Venons and the year he joined
 - [ ] OG image, favicon in brand colors
 - [ ] Social links in `siteConfig.socials`
 - [ ] Confirm the production domain
-- [ ] Per-project detail pages (`/[locale]/projects/[slug]`), if wanted
-- [ ] Optional: an interactive terminal section visitors can type into
-- [ ] Consider a contact form (keeping the per-solution pre-qualification)
+- [ ] Optional: publish price floors — research found visible pricing is the
+      strongest trust signal for a solo developer, and each detail page has a
+      natural slot for it
+- [ ] Optional: a contact form, keeping the per-page pre-qualification
+- [ ] Optional: an interactive terminal section
 
 ## Changelog
+
+### 2026-09-13 — Detail pages, four-item nav and real copy
+
+- **Cut the navigation from eight items to four**: Solutions, Services, About,
+  Contact. Solutions and Services are dropdowns listing their detail pages;
+  the mobile drawer expands them inline. Projects and Clients moved into the
+  homepage only; Experience and Team moved to `/about`.
+- Added **thirteen detail pages** — one per solution and service — at
+  `/solutions/[slug]` and `/services/[slug]`, plus index pages for each
+  section and a new `/about` page. All statically prerendered in three
+  locales.
+- Built [DetailPage](src/components/detail/detail-page.tsx), a shared layout
+  whose section order follows researched provider-site patterns: problem →
+  capabilities → guarantees → process → integrations → FAQ → related → CTA.
+- Wrote long-form copy for all thirteen pages in English, Uzbek and Russian:
+  a lead, three problem paragraphs, six capabilities, four outcomes and four
+  FAQs each. Written from research into how real IT providers write, against
+  a banned-phrase list and a "no invented proof" rule.
+- Added [guarantees.ts](src/content/guarantees.ts) with the four commitments
+  Shakhzod confirmed, the named integrations (1C, Excel, Asl Belgisi, Payme,
+  Click, Uzum, Bitrix24, Billz, Telegram), and
+  [process.ts](src/content/process.ts) with six delivery steps stated as
+  commitments rather than stage names.
+- Home-page cards now link to their detail pages instead of opening a mailto.
+- Extended the sitemap to all 45 pages with `hreflang` alternates.
+- Verified: responsive (56 checks), typing, locales at four widths, a new nav
+  suite (4 top-level items, 6- and 7-entry dropdowns, mobile submenu expansion
+  and navigation, no overflow in any locale), and a content check confirming
+  every slug resolves to real content with no banned phrases.
+- **Test-only fixes:** two suites asserted the old structure — a five-link
+  drawer and Team content on the homepage. Both expectations updated; neither
+  was a site defect.
 
 ### 2026-09-13 — Services, solutions and the About copy
 

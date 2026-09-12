@@ -21,7 +21,10 @@
       "solutions": "man solutions"
     },
     "services": "Xizmatlar",
-    "solutions": "Yechimlar"
+    "solutions": "Yechimlar",
+    "allSolutions": "Barcha yechimlar",
+    "allServices": "Barcha xizmatlar",
+    "backTo": "Orqaga"
   },
   "hero": {
     "greeting": "Salom, men",
@@ -50,7 +53,8 @@
   "services": {
     "title": "Men nima yarataman",
     "subtitle": "Natija ortidagi tizimlar",
-    "deliveredWith": "Odatda shular bilan"
+    "deliveredWith": "Odatda shular bilan",
+    "learnMore": "Batafsil"
   },
   "solutions": {
     "title": "Men nimani hal qila olaman",
@@ -105,5 +109,24 @@
   },
   "common": {
     "empty": "Hozircha yozuvlar yo'q — tez orada."
+  },
+  "detail": {
+    "enquirySubject": "Savol",
+    "ctaPrimary": "Bepul konsultatsiya olish",
+    "ctaSecondary": "Aloqa ma'lumotlari",
+    "microFree": "Bepul konsultatsiya",
+    "microNoCommitment": "Majburiyatsiz",
+    "microWritten": "Yozma hajm va narx",
+    "microContract": "Rasmiy shartnoma",
+    "problemTitle": "Muammo",
+    "includesTitle": "Nima olasiz",
+    "guaranteesTitle": "Har bir loyihaga nima kiradi",
+    "processTitle": "Ish qanday ketadi",
+    "integrationsTitle": "Hozirgi tizimlaringiz bilan ishlaydi",
+    "integrationsBody": "Hech narsani tashlash shart emas. Mavjud tizimlar ishlashda davom etadi va yangisi bilan ma'lumot almashadi.",
+    "faqTitle": "Ko'p so'raladigan savollar",
+    "relatedTitle": "Aloqador",
+    "finalCtaTitle": "{subject} haqida o'ylayapsizmi?",
+    "finalCtaBody": "Hozir ish qanday ketayotganini va nima noto'g'ri ekanini ayting. Yordam bera olsam — yozma hajm va aniq narx olasiz. Bera olmasam, buni ochiq aytaman."
   }
 }

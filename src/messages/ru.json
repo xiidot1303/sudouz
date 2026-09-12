@@ -21,7 +21,10 @@
       "solutions": "man solutions"
     },
     "services": "Услуги",
-    "solutions": "Решения"
+    "solutions": "Решения",
+    "allSolutions": "Все решения",
+    "allServices": "Все услуги",
+    "backTo": "Назад"
   },
   "hero": {
     "greeting": "Привет, я",
@@ -50,7 +53,8 @@
   "services": {
     "title": "Что я создаю",
     "subtitle": "Системы, которые стоят за результатом",
-    "deliveredWith": "Обычно на базе"
+    "deliveredWith": "Обычно на базе",
+    "learnMore": "Подробнее"
   },
   "solutions": {
     "title": "Что я могу решить",
@@ -105,5 +109,24 @@
   },
   "common": {
     "empty": "Записей пока нет — скоро появятся."
+  },
+  "detail": {
+    "enquirySubject": "Вопрос",
+    "ctaPrimary": "Получить бесплатную консультацию",
+    "ctaSecondary": "Контакты",
+    "microFree": "Бесплатная консультация",
+    "microNoCommitment": "Без обязательств",
+    "microWritten": "Письменный объём и цена",
+    "microContract": "Официальный договор",
+    "problemTitle": "Проблема",
+    "includesTitle": "Что вы получаете",
+    "guaranteesTitle": "Что входит в каждый проект",
+    "processTitle": "Как идёт работа",
+    "integrationsTitle": "Работает с тем, что у вас уже есть",
+    "integrationsBody": "Ничего выбрасывать не нужно. Существующие системы продолжают работать и обмениваются данными с новой.",
+    "faqTitle": "Частые вопросы",
+    "relatedTitle": "Связанное",
+    "finalCtaTitle": "Думаете про {subject}?",
+    "finalCtaBody": "Расскажите, как процесс устроен сейчас и что идёт не так. Если смогу помочь — получите письменный объём и фиксированную цену. Если нет, скажу прямо."
   }
 }

@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 import { solutions } from "@/content/solutions";
 import { services } from "@/content/services";
-import { siteConfig } from "@/content/site";
+import { Link } from "@/i18n/navigation";
 import { Section } from "@/components/ui/section";
 import { Icon } from "@/components/ui/icon";
 import { pick } from "@/lib/utils";
@@ -23,10 +23,6 @@ export function Solutions() {
       <ul className="grid gap-4 md:grid-cols-2">
         {solutions.map((solution) => {
           const title = pick(solution.title, locale);
-          // Prefill the subject so enquiries arrive already qualified.
-          const mailto = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
-            `${t("ctaSubject")}: ${title}`,
-          )}`;
 
           return (
             <li
@@ -61,24 +57,27 @@ export function Solutions() {
                   const service = services.find((s) => s.slug === slug);
                   if (!service) return null;
                   return (
-                    <a
+                    <Link
                       key={slug}
-                      href="#services"
+                      href={`/services/${slug}`}
                       className="rounded-full border border-border px-2 py-0.5 transition-colors hover:border-accent/60 hover:text-accent-text"
                     >
                       {pick(service.title, locale)}
-                    </a>
+                    </Link>
                   );
                 })}
               </p>
 
-              <a
-                href={mailto}
-                className="mt-5 inline-flex items-center gap-1.5 self-start text-sm font-medium text-accent-text underline-offset-4 hover:underline"
+              <Link
+                href={`/solutions/${solution.slug}`}
+                className="group mt-5 inline-flex items-center gap-1.5 self-start text-sm font-medium text-accent-text underline-offset-4 hover:underline"
               >
                 {t("cta")}
-                <ArrowRight className="size-3.5" aria-hidden />
-              </a>
+                <ArrowRight
+                  className="size-3.5 transition-transform group-hover:translate-x-0.5"
+                  aria-hidden
+                />
+              </Link>
             </li>
           );
         })}

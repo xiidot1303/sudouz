@@ -5,7 +5,6 @@ import { About } from "@/components/sections/about";
 import { Placeholder } from "@/components/sections/placeholder";
 import { Services } from "@/components/sections/services";
 import { Solutions } from "@/components/sections/solutions";
-import { Team } from "@/components/sections/team";
 import { Section } from "@/components/ui/section";
 import { siteConfig } from "@/content/site";
 import { buttonVariants } from "@/components/ui/button";
@@ -47,16 +46,6 @@ export default async function HomePage({
         command="cat clients.txt"
       >
         <Placeholder label={t("common.empty")} command="cat clients.txt" />
-      </Section>
-
-      <Team />
-
-      <Section
-        id="experience"
-        title={t("experience.title")}
-        command="history | grep work"
-      >
-        <Placeholder label={t("common.empty")} command="history" />
       </Section>
 
       <Section

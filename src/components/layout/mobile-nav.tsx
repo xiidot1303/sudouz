@@ -2,23 +2,35 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import { useTranslations } from "next-intl";
-import { Menu, X } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 import { Link } from "@/i18n/navigation";
 import { navItems } from "./nav-items";
+import { services } from "@/content/services";
+import { solutions } from "@/content/solutions";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Prompt } from "@/components/terminal";
+import { cn, pick } from "@/lib/utils";
 
 /** The mount state never changes after hydration, so there is nothing to subscribe to. */
 function subscribeToNothing() {
   return () => {};
 }
 
+function childTitle(sectionKey: string, slug: string, locale: string) {
+  const source = sectionKey === "solutions" ? solutions : services;
+  const match = source.find((entry) => entry.slug === slug);
+  return match ? pick(match.title, locale) : slug;
+}
+
 export function MobileNav() {
   const t = useTranslations("nav");
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState<string | null>(null);
+
   // `document` only exists after hydration, so gate the portal on mount.
   const mounted = useSyncExternalStore(
     subscribeToNothing,
@@ -44,6 +56,11 @@ export function MobileNav() {
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
+
+  function close() {
+    setOpen(false);
+    setExpanded(null);
+  }
 
   return (
     <div className="lg:hidden">
@@ -76,22 +93,60 @@ export function MobileNav() {
               </p>
 
               <nav className="flex flex-col gap-1 px-4 py-4">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.key}
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="tap-target flex items-baseline gap-3 rounded-md px-3 py-3 transition-colors hover:bg-accent/10 hover:text-accent-text"
-                  >
-                    <span className="text-lg font-medium">{t(item.key)}</span>
-                    <span
-                      aria-hidden
-                      className="font-mono text-[11px] text-muted-foreground"
-                    >
-                      {t(`commands.${item.key}`)}
-                    </span>
-                  </Link>
-                ))}
+                {navItems.map((item) => {
+                  const hasChildren = Boolean(item.children?.length);
+                  const isExpanded = expanded === item.key;
+
+                  return (
+                    <div key={item.key}>
+                      <div className="flex items-center">
+                        <Link
+                          href={item.href}
+                          onClick={close}
+                          className="tap-target flex flex-1 items-center rounded-md px-3 py-3 text-lg font-medium transition-colors hover:bg-accent/10 hover:text-accent-text"
+                        >
+                          {t(item.key)}
+                        </Link>
+
+                        {hasChildren ? (
+                          <button
+                            type="button"
+                            aria-expanded={isExpanded}
+                            aria-label={`${t(item.key)} — submenu`}
+                            onClick={() =>
+                              setExpanded(isExpanded ? null : item.key)
+                            }
+                            className="tap-target flex items-center justify-center rounded-md px-3 text-muted-foreground transition-colors hover:text-accent-text"
+                          >
+                            <ChevronDown
+                              aria-hidden
+                              className={cn(
+                                "size-5 transition-transform",
+                                isExpanded && "rotate-180",
+                              )}
+                            />
+                          </button>
+                        ) : null}
+                      </div>
+
+                      {hasChildren && isExpanded ? (
+                        <ul className="mb-2 ml-3 border-l border-border pl-3">
+                          {item.children!.map((child) => (
+                            <li key={child.slug}>
+                              <Link
+                                href={child.href}
+                                onClick={close}
+                                className="tap-target flex items-center rounded-md px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:text-accent-text"
+                              >
+                                {childTitle(item.key, child.slug, locale)}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </div>
+                  );
+                })}
               </nav>
 
               <div className="mt-auto flex border-t border-border px-4 py-6">
