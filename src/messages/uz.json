@@ -8,7 +8,8 @@
     "projects": "Loyihalar",
     "clients": "Mijozlar",
     "experience": "Tajriba",
-    "contact": "Aloqa"
+    "contact": "Aloqa",
+    "team": "Mening jamoam"
   },
   "hero": {
     "greeting": "Salom, men",
@@ -16,7 +17,8 @@
     "role": "Dasturiy ta'minot muhandisi",
     "tagline": "Odamlar haqiqatan foydalanadigan veb-mahsulotlar yaratishda 6 yillik tajriba.",
     "ctaPrimary": "Ishlarimni ko'rish",
-    "ctaSecondary": "Bog'lanish"
+    "ctaSecondary": "Bog'lanish",
+    "portraitAlt": "Shahzod Yo'ldoshev"
   },
   "about": {
     "title": "Men haqimda",
@@ -31,6 +33,18 @@
   "clients": {
     "title": "Mijozlar",
     "subtitle": "Men ishlagan odamlar va jamoalar"
+  },
+  "team": {
+    "title": "Mening jamoam",
+    "subtitle": "Men Venons'da mahsulotlar yarataman",
+    "since": "Jamoada",
+    "founded": "Tashkil etilgan",
+    "basedIn": "Manzil",
+    "missionLabel": "Missiya",
+    "productsLabel": "Biz yaratgan mahsulotlar",
+    "industriesLabel": "Sohalar",
+    "visitSite": "venons.uz saytiga o'tish",
+    "photoAlt": "Venons jamoasi"
   },
   "experience": {
     "title": "Tajriba",

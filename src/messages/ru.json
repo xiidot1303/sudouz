@@ -8,7 +8,8 @@
     "projects": "Проекты",
     "clients": "Клиенты",
     "experience": "Опыт",
-    "contact": "Контакты"
+    "contact": "Контакты",
+    "team": "Моя команда"
   },
   "hero": {
     "greeting": "Привет, я",
@@ -16,7 +17,8 @@
     "role": "Инженер-программист",
     "tagline": "6 лет создаю веб-продукты, которыми действительно пользуются.",
     "ctaPrimary": "Мои работы",
-    "ctaSecondary": "Связаться"
+    "ctaSecondary": "Связаться",
+    "portraitAlt": "Шахзод Юлдошев"
   },
   "about": {
     "title": "Обо мне",
@@ -31,6 +33,18 @@
   "clients": {
     "title": "Клиенты",
     "subtitle": "Люди и команды, с которыми я работал"
+  },
+  "team": {
+    "title": "Моя команда",
+    "subtitle": "Я создаю продукты в Venons",
+    "since": "В команде с",
+    "founded": "Основана",
+    "basedIn": "Находится в",
+    "missionLabel": "Миссия",
+    "productsLabel": "Наши продукты",
+    "industriesLabel": "Отрасли",
+    "visitSite": "Перейти на venons.uz",
+    "photoAlt": "Команда Venons"
   },
   "experience": {
     "title": "Опыт",

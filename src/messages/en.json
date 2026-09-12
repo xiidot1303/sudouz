@@ -8,7 +8,8 @@
     "projects": "Projects",
     "clients": "Clients",
     "experience": "Experience",
-    "contact": "Contact"
+    "contact": "Contact",
+    "team": "My team"
   },
   "hero": {
     "greeting": "Hi, I'm",
@@ -16,7 +17,8 @@
     "role": "Software Engineer",
     "tagline": "6 years of building web products that people actually use.",
     "ctaPrimary": "View my work",
-    "ctaSecondary": "Get in touch"
+    "ctaSecondary": "Get in touch",
+    "portraitAlt": "Shakhzod Yuldoshev"
   },
   "about": {
     "title": "About me",
@@ -31,6 +33,18 @@
   "clients": {
     "title": "Clients",
     "subtitle": "People and teams I've worked with"
+  },
+  "team": {
+    "title": "My team",
+    "subtitle": "I build products at Venons",
+    "since": "Part of the team since",
+    "founded": "Founded",
+    "basedIn": "Based in",
+    "missionLabel": "Mission",
+    "productsLabel": "Products we build",
+    "industriesLabel": "Industries",
+    "visitSite": "Visit venons.uz",
+    "photoAlt": "The Venons team"
   },
   "experience": {
     "title": "Experience",

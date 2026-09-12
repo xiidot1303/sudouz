@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Hero } from "@/components/sections/hero";
 import { Placeholder } from "@/components/sections/placeholder";
+import { Team } from "@/components/sections/team";
 import { Section } from "@/components/ui/section";
 import { siteConfig } from "@/content/site";
 import { buttonVariants } from "@/components/ui/button";
@@ -39,6 +40,8 @@ export default async function HomePage({
       >
         <Placeholder label="—" />
       </Section>
+
+      <Team />
 
       <Section id="experience" title={t("experience.title")}>
         <Placeholder label="—" />

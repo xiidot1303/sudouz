@@ -46,13 +46,14 @@ src/
 ├── components/
 │   ├── brand/logo.tsx       # SUDO wordmark
 │   ├── layout/              # site-header, site-footer, mobile-nav, nav-items
-│   ├── sections/            # hero, placeholder — one file per page section
+│   ├── sections/            # hero, team, placeholder — one per page section
 │   ├── ui/                  # button, container, section primitives
 │   ├── language-switcher.tsx
 │   ├── theme-provider.tsx
 │   └── theme-toggle.tsx
 ├── content/                 # all site data, typed
 │   ├── site.ts              # name, domain, email, socials
+│   ├── company.ts           # Venons — employer facts, products, stats
 │   ├── types.ts             # Project, Client, ExperienceItem, SkillGroup
 │   ├── projects.ts          # (empty — awaiting content)
 │   ├── clients.ts           # (empty — awaiting content)
@@ -86,6 +87,9 @@ src/
   `border-border`) rather than raw colors, so light and dark stay in sync.
 - **Middleware.** Next.js 16 renamed `middleware.ts` to `proxy.ts`; use
   `src/proxy.ts`.
+- **Localized data.** Content in `src/content` uses `Localized<T>` maps. Read
+  them with the `pick(value, locale)` helper from `@/lib/utils`, which falls
+  back to English when a translation is missing.
 
 ## Brand
 
@@ -178,6 +182,52 @@ no horizontal overflow, no element past the viewport, a >=16px gutter, correct
 nav mode per breakpoint, drawer behavior, 44px tap targets, and that computed
 colors equal the brand hexes. Worth reproducing after significant layout work.
 
+## Shakhzod and Venons
+
+Two distinct identities live on this site; keep them separate.
+
+- **SUDO** is Shakhzod's personal brand — the wordmark, the mint/ink palette,
+  the whole visual system.
+- **Venons** (`VENONS MChJ`) is the company he works at. It has its own
+  identity and its own blue (`#2160F3`, recorded in `company.brandColor`).
+
+The site is Shakhzod's, so **SUDO's palette always wins**. Venons appears as
+an employer he is part of, never as a co-brand: do not restyle sections in
+Venons blue, and do not place the Venons logo in the header or footer. The
+blue appears only where it genuinely belongs — the shirt in his photo.
+
+### Venons facts
+
+Sourced from [venons.uz](https://venons.uz) (a single-page site) on
+2026-09-12 and stored in [src/content/company.ts](src/content/company.ts):
+founded 2020, based in Samarkand, products VSALES and VERP, industries FMCG /
+pharma / auto parts / AI, and the headline stats (20+ projects, 5 innovative
+products, 600+ users). Descriptions are translated into all three locales.
+
+If these numbers go stale, `company.ts` is the single place to edit.
+
+**Not yet recorded:** Shakhzod's job title at Venons and his start year. He
+opted to leave the title generic for now, so the site says "Software Engineer"
+and the team section does not claim a role. Add a `role` field to `company.ts`
+and a `since` value when he provides them — the `team.since` message key is
+already translated and waiting.
+
+### Images
+
+Both live in [public/images/](public/images/) and are referenced by path, not
+imported, so they are served statically and can be swapped without a code
+change.
+
+- `hero.png` (844×1168, RGBA) — cut-out portrait, transparent background, in
+  a Venons shirt. The figure **bleeds to the bottom edge of its canvas**, so
+  it is bottom-aligned against the hero's closing border and must not have
+  padding beneath it, or the crop looks like a mistake rather than a design.
+- `team.jpg` (1280×853) — the Venons group photo, used in the team section.
+
+Both go through `next/image`. The portrait is `priority` (it is the LCP
+element); the team photo is lazy by default. Alt text is translated —
+the portrait uses the localized spelling of his name.
+
 ## Deployment (Vercel)
 
 Zero-config: Vercel detects Next.js and pnpm automatically.
@@ -192,21 +242,50 @@ if the final domain differs, since it seeds `metadataBase`, the sitemap and robo
 
 ## Status
 
-Scaffolding and brand design are complete and verified: `pnpm build` and
-`pnpm lint` pass, and the layout was checked in a real browser at
-320/390/768/1440px in both themes with no failures. Section content is still
-placeholder — the `src/content/*` modules are intentionally empty arrays
-awaiting real material.
+The shell, brand system and the hero and team sections are complete and
+verified: `pnpm build` and `pnpm lint` pass, and the layout was checked in a
+real browser at 320/390/768/1440px in both themes across all three locales.
+About, Projects, Clients and Experience are still placeholders — their
+`src/content/*` modules are intentionally empty arrays awaiting real material.
 
 ### Open items
 
 - [ ] Real content: projects, clients, experience, skills, about text
-- [ ] Profile photo / OG image (`public/`), favicon in brand colors
+- [ ] Shakhzod's job title at Venons and the year he joined (see
+      "Shakhzod and Venons")
+- [ ] OG image, favicon in brand colors
 - [ ] Social links in `siteConfig.socials`
 - [ ] Confirm the production domain
 - [ ] Per-project detail pages (`/[locale]/projects/[slug]`), if wanted
 
 ## Changelog
+
+### 2026-09-12 — Hero portrait and the Venons team section
+
+- Added the cut-out portrait to the hero, right-aligned beside the copy and
+  bottom-aligned against a new closing border so the figure stands on the
+  section edge. On mobile it stacks under the text. Served through
+  `next/image` with `priority` as the LCP element, behind a mint disc.
+- Added a **My team** section covering Venons: the group photo, company name
+  linking to venons.uz, tagline, location and founding year, mission, a stat
+  row (20+ projects / 5 products / 600+ users), the VSALES and VERP product
+  cards, and industry pills.
+- Created [src/content/company.ts](src/content/company.ts) holding every
+  Venons fact, gathered from venons.uz. All prose is translated into English,
+  Uzbek and Russian.
+- Added a `pick(localized, locale)` helper in `@/lib/utils` for reading
+  `Localized<T>` content, with an English fallback.
+- Added the `team` nav entry (now six items; verified they still fit the
+  desktop bar at 476px and appear in the mobile drawer) and `team.*` message
+  keys plus `hero.portraitAlt` in all three locales.
+- Documented the SUDO-vs-Venons brand separation, so Venons' blue never
+  displaces the site's own palette.
+- **Adjusted after review:** the portrait first rendered floating with a gap
+  beneath it, which made the mid-torso crop look accidental. Removing the
+  gap and adding the section border fixed it.
+- Verified: full responsive suite passes (56 checks), and all three locales
+  render the Venons copy with images loading and localized alt text at
+  320/390/768/1440px.
 
 ### 2026-09-12 — SUDO brand identity and responsive pass
 
