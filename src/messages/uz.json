@@ -9,7 +9,15 @@
     "clients": "Mijozlar",
     "experience": "Tajriba",
     "contact": "Aloqa",
-    "team": "Mening jamoam"
+    "team": "Mening jamoam",
+    "commands": {
+      "about": "whoami",
+      "projects": "ls ~/projects",
+      "clients": "cat clients.txt",
+      "team": "groups",
+      "experience": "history",
+      "contact": "mail"
+    }
   },
   "hero": {
     "greeting": "Salom, men",
@@ -18,7 +26,14 @@
     "tagline": "Odamlar haqiqatan foydalanadigan veb-mahsulotlar yaratishda 6 yillik tajriba.",
     "ctaPrimary": "Ishlarimni ko'rish",
     "ctaSecondary": "Bog'lanish",
-    "portraitAlt": "Shahzod Yo'ldoshev"
+    "portraitAlt": "Shahzod Yo'ldoshev",
+    "roles": [
+      "Dasturiy ta'minot muhandisi",
+      "Full-Stack dasturchi",
+      "Muammolarni hal qiluvchi",
+      "Linux ishqibozi"
+    ],
+    "rolesLabel": "lavozim"
   },
   "about": {
     "title": "Men haqimda",
@@ -66,5 +81,8 @@
   },
   "language": {
     "label": "Til"
+  },
+  "common": {
+    "empty": "Hozircha yozuvlar yo'q — tez orada."
   }
 }

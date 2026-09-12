@@ -21,36 +21,44 @@ export default async function HomePage({
     <>
       <Hero />
 
-      <Section id="about" title={t("about.title")}>
-        <Placeholder label={t("about.body")} />
+      <Section id="about" title={t("about.title")} command="whoami --verbose">
+        <Placeholder label={t("about.body")} command="cat about.md" />
       </Section>
 
       <Section
         id="projects"
         title={t("projects.title")}
         subtitle={t("projects.subtitle")}
+        command="ls -la"
+        path="~/projects"
       >
-        <Placeholder label="—" />
+        <Placeholder label={t("common.empty")} command="ls" />
       </Section>
 
       <Section
         id="clients"
         title={t("clients.title")}
         subtitle={t("clients.subtitle")}
+        command="cat clients.txt"
       >
-        <Placeholder label="—" />
+        <Placeholder label={t("common.empty")} command="cat clients.txt" />
       </Section>
 
       <Team />
 
-      <Section id="experience" title={t("experience.title")}>
-        <Placeholder label="—" />
+      <Section
+        id="experience"
+        title={t("experience.title")}
+        command="history | grep work"
+      >
+        <Placeholder label={t("common.empty")} command="history" />
       </Section>
 
       <Section
         id="contact"
         title={t("contact.title")}
         subtitle={t("contact.subtitle")}
+        command="mail -s 'hello'"
       >
         <a
           href={`mailto:${siteConfig.email}`}

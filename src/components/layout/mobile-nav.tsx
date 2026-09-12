@@ -9,6 +9,7 @@ import { Link } from "@/i18n/navigation";
 import { navItems } from "./nav-items";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { Prompt } from "@/components/terminal";
 
 /** The mount state never changes after hydration, so there is nothing to subscribe to. */
 function subscribeToNothing() {
@@ -67,15 +68,28 @@ export function MobileNav() {
               id="mobile-nav-panel"
               className="fixed inset-x-0 bottom-0 top-16 z-40 flex flex-col overflow-y-auto overscroll-contain bg-background"
             >
-              <nav className="flex flex-col gap-1 px-4 py-6">
+              <p className="flex items-center gap-2 border-b border-border px-4 py-3">
+                <Prompt path="~" />
+                <span className="font-mono text-xs text-foreground/80">
+                  menu
+                </span>
+              </p>
+
+              <nav className="flex flex-col gap-1 px-4 py-4">
                 {navItems.map((item) => (
                   <Link
                     key={item.key}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="tap-target flex items-center rounded-md px-3 py-3 text-lg font-medium transition-colors hover:bg-accent/10 hover:text-accent-text"
+                    className="tap-target flex items-baseline gap-3 rounded-md px-3 py-3 transition-colors hover:bg-accent/10 hover:text-accent-text"
                   >
-                    {t(item.key)}
+                    <span className="text-lg font-medium">{t(item.key)}</span>
+                    <span
+                      aria-hidden
+                      className="font-mono text-[11px] text-muted-foreground"
+                    >
+                      {t(`commands.${item.key}`)}
+                    </span>
                   </Link>
                 ))}
               </nav>

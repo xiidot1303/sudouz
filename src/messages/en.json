@@ -9,7 +9,15 @@
     "clients": "Clients",
     "experience": "Experience",
     "contact": "Contact",
-    "team": "My team"
+    "team": "My team",
+    "commands": {
+      "about": "whoami",
+      "projects": "ls ~/projects",
+      "clients": "cat clients.txt",
+      "team": "groups",
+      "experience": "history",
+      "contact": "mail"
+    }
   },
   "hero": {
     "greeting": "Hi, I'm",
@@ -18,7 +26,14 @@
     "tagline": "6 years of building web products that people actually use.",
     "ctaPrimary": "View my work",
     "ctaSecondary": "Get in touch",
-    "portraitAlt": "Shakhzod Yuldoshev"
+    "portraitAlt": "Shakhzod Yuldoshev",
+    "roles": [
+      "Software Engineer",
+      "Full-Stack Developer",
+      "Problem Solver",
+      "Linux Enthusiast"
+    ],
+    "rolesLabel": "role"
   },
   "about": {
     "title": "About me",
@@ -66,5 +81,8 @@
   },
   "language": {
     "label": "Language"
+  },
+  "common": {
+    "empty": "No entries yet — content coming soon."
   }
 }

@@ -45,6 +45,7 @@ src/
 │       └── not-found.tsx
 ├── components/
 │   ├── brand/logo.tsx       # SUDO wordmark
+│   ├── terminal/            # prompt, cursor, typing, terminal window
 │   ├── layout/              # site-header, site-footer, mobile-nav, nav-items
 │   ├── sections/            # hero, team, placeholder — one per page section
 │   ├── ui/                  # button, container, section primitives
@@ -182,6 +183,72 @@ no horizontal overflow, no element past the viewport, a >=16px gutter, correct
 nav mode per breakpoint, drawer behavior, 44px tap targets, and that computed
 colors equal the brand hexes. Worth reproducing after significant layout work.
 
+## Terminal aesthetic
+
+Shakhzod is a Linux developer, so the site is dressed as a shell. The theme is
+**accent, not costume**: it decorates a normal portfolio rather than turning
+the page into a terminal emulator, so a non-technical client can still read it.
+
+### Components — [src/components/terminal/](src/components/terminal/)
+
+| Component        | Purpose                                                     |
+| ---------------- | ----------------------------------------------------------- |
+| `Prompt`         | `shakhzod@sudo:~$` label; `path` prop sets the directory     |
+| `Cursor`         | Blinking block cursor (`animate-blink`)                      |
+| `TypingRole`     | Types and deletes a cycling list of roles                    |
+| `TerminalWindow` | Framed block with a title bar and traffic-light dots         |
+| `useTypewriter`  | The hook behind `TypingRole`                                 |
+
+Import from `@/components/terminal`.
+
+### Where it shows up
+
+- **Hero** — a `whoami` prompt above the name, then `role = <typing>` cycling
+  through the roles from `hero.roles`.
+- **Section headings** — each takes a `command` prop rendering a matching
+  shell line above the title (`ls -la`, `cat clients.txt`, `groups shakhzod`,
+  `history | grep work`). Pass `path` when the directory should differ.
+- **Empty sections** — `Placeholder` renders as a `TerminalWindow` showing the
+  command and its output, so unfinished areas still look deliberate.
+- **Nav** — each item reveals its shell equivalent on hover (desktop) or shows
+  it inline (mobile drawer), from the `nav.commands.*` message keys.
+- **Footer** — the SUDO wordmark followed by a live blinking cursor.
+
+### Rules
+
+- **Prompts are decorative.** `Prompt` is `aria-hidden` so screen readers get
+  the heading text without shell punctuation read out symbol by symbol.
+- **Commands must be plausible.** They are read by developers; keep them valid
+  and idiomatic. Do not repeat the path in the command when `path` already
+  shows it (`~/projects$ ls -la`, never `~/projects$ ls -la ~/projects`).
+- **Mono type is for chrome**, not body copy. Prompts, commands, labels and
+  stat values are mono; paragraphs stay in the sans face for readability.
+
+### Motion and accessibility
+
+Animation is real motion, so it is gated:
+
+- `useTypewriter` watches `prefers-reduced-motion` through
+  `useSyncExternalStore` and, when reduce is set, returns the **complete first
+  role** immediately rather than withholding it.
+- The server snapshot reports `true` (reduced), so nothing animates before
+  hydration and there is no flash of a half-typed word.
+- The cursor blinks under `motion-safe:` only.
+- `TypingRole` renders the full role list in an `sr-only` node and marks the
+  animated copy `aria-hidden`, so the roles are announced once instead of on
+  every keystroke.
+- The role line reserves height (`min-h`) so the layout does not shift as
+  words change length.
+
+### Gotcha: the typewriter dependency key
+
+`useTypewriter` depends on `words.join(KEY_SEPARATOR)`, not the array itself —
+a parent re-render passing a fresh array would otherwise restart the
+animation. The separator is `"\n"`, which cannot appear in these single-line
+labels. **Do not change it to a space**: the effect splits the key back apart,
+and a space would shred multi-word roles like "Software Engineer" into
+fragments.
+
 ## Shakhzod and Venons
 
 Two distinct identities live on this site; keep them separate.
@@ -242,11 +309,12 @@ if the final domain differs, since it seeds `metadataBase`, the sitemap and robo
 
 ## Status
 
-The shell, brand system and the hero and team sections are complete and
-verified: `pnpm build` and `pnpm lint` pass, and the layout was checked in a
-real browser at 320/390/768/1440px in both themes across all three locales.
-About, Projects, Clients and Experience are still placeholders — their
-`src/content/*` modules are intentionally empty arrays awaiting real material.
+The shell, brand system, terminal theme, and the hero and team sections are
+complete and verified: `pnpm build` and `pnpm lint` pass, and the layout,
+typing animation and all three locales were checked in a real browser at
+320/390/768/1440px in both themes. About, Projects, Clients and Experience are
+still placeholders — their `src/content/*` modules are intentionally empty
+arrays awaiting real material.
 
 ### Open items
 
@@ -257,8 +325,43 @@ About, Projects, Clients and Experience are still placeholders — their
 - [ ] Social links in `siteConfig.socials`
 - [ ] Confirm the production domain
 - [ ] Per-project detail pages (`/[locale]/projects/[slug]`), if wanted
+- [ ] Optional: an interactive terminal section visitors can type into
+      (deferred — the visual theme was wanted first)
 
 ## Changelog
+
+### 2026-09-13 — Terminal and shell theme
+
+- Added a terminal component set under
+  [src/components/terminal/](src/components/terminal/): `Prompt`, `Cursor`,
+  `TerminalWindow`, `TypingRole` and the `useTypewriter` hook.
+- Hero now opens with a `whoami` prompt and a typing `role = ...` line that
+  cycles through four roles, translated per locale in `hero.roles`.
+- Gave every section heading a shell command (`ls -la`, `cat clients.txt`,
+  `groups shakhzod`, `history | grep work`, `mail -s 'hello'`) via a new
+  `command` prop on `Section`.
+- Restyled `Placeholder` as a terminal window with a title bar and traffic
+  lights, so unfinished sections read as shell output rather than dead space.
+- Nav items now carry their shell equivalent — revealed on hover on desktop,
+  shown inline in the mobile drawer, which also gained a `menu` prompt header.
+- Footer wordmark now ends in a live blinking cursor.
+- Added `blink` keyframes plus `.terminal-window`, `.terminal-titlebar`,
+  `.terminal-dot` and `.terminal-body` component classes.
+- Accessibility: the typewriter returns the full first role under
+  `prefers-reduced-motion` instead of withholding text, reports reduced on the
+  server so nothing animates pre-hydration, exposes the whole role list to
+  screen readers in one `sr-only` node, and reserves line height to avoid
+  layout shift. Prompts are `aria-hidden`.
+- **Fixed:** the typewriter's dependency key joined and re-split roles on a
+  space, which would have shredded multi-word roles. Now uses a newline
+  separator; a browser test asserts multi-word roles stay intact.
+- **Fixed:** a NUL byte slipped into the hook's separator literal, and a
+  render-time ref write tripped `react-hooks/refs`. Both resolved.
+- **Fixed:** the Projects prompt read `~/projects$ ls -la ~/projects`
+  (redundant path) and commands butted against the `$` with no space.
+- Verified: responsive suite (56 checks), a new typing suite (animation
+  cycles all four roles, reduced-motion static, screen-reader list correct),
+  and all three locales at four widths.
 
 ### 2026-09-12 — Hero portrait and the Venons team section
 

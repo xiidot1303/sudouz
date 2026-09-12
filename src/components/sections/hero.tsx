@@ -6,9 +6,12 @@ import { Link } from "@/i18n/navigation";
 import { siteConfig } from "@/content/site";
 import { Container } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
+import { Prompt, TypingRole } from "@/components/terminal";
 
 export function Hero() {
   const t = useTranslations("hero");
+  // `raw` returns the array as authored in the message file.
+  const roles = t.raw("roles") as string[];
 
   return (
     <section className="relative overflow-hidden border-b border-border/60">
@@ -24,17 +27,25 @@ export function Hero() {
             keeps that alignment; on mobile it stacks under the copy. */}
         <div className="grid items-end gap-0 pt-16 sm:pt-20 lg:grid-cols-[1.15fr_1fr] lg:gap-8 lg:pt-24">
           <div className="pb-10 lg:pb-28 xl:pb-32">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-text sm:text-sm">
-              {t("greeting")}
+            {/* Reads as a shell invocation: `whoami` printing the name below. */}
+            <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <Prompt path="~" />
+              <span className="font-mono text-xs text-foreground/80 sm:text-sm">
+                whoami
+              </span>
             </p>
 
-            {/* Clamped so the name scales smoothly instead of jumping. */}
             <h1 className="mt-3 text-balance text-[clamp(2rem,7vw,4rem)] font-semibold leading-[1.05] tracking-tight">
               {t("name")}
             </h1>
 
-            <p className="mt-3 text-lg text-muted-foreground sm:text-xl lg:text-2xl">
-              {t("role")}
+            {/* The role line types itself out, cycling through the list. */}
+            <p className="mt-4 flex min-h-[1.75rem] flex-wrap items-center gap-x-2 font-mono text-base text-muted-foreground sm:min-h-[2rem] sm:text-lg lg:text-xl">
+              <span className="text-accent-text">{t("rolesLabel")}</span>
+              <span className="text-muted-foreground">=</span>
+              <span className="text-foreground">
+                <TypingRole roles={roles} />
+              </span>
             </p>
 
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">

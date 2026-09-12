@@ -27,9 +27,17 @@ export async function SiteHeader() {
             <Link
               key={item.key}
               href={item.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-accent-text"
+              className="group relative text-sm text-muted-foreground transition-colors hover:text-accent-text"
             >
               {t(item.key)}
+              {/* The shell equivalent, revealed on hover — a small wink for
+                  anyone who reads it, invisible otherwise. */}
+              <span
+                aria-hidden
+                className="pointer-events-none absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap font-mono text-[10px] text-accent-text/0 transition-colors group-hover:text-accent-text/70"
+              >
+                {t(`commands.${item.key}`)}
+              </span>
             </Link>
           ))}
         </nav>

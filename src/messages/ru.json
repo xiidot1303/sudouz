@@ -9,7 +9,15 @@
     "clients": "Клиенты",
     "experience": "Опыт",
     "contact": "Контакты",
-    "team": "Моя команда"
+    "team": "Моя команда",
+    "commands": {
+      "about": "whoami",
+      "projects": "ls ~/projects",
+      "clients": "cat clients.txt",
+      "team": "groups",
+      "experience": "history",
+      "contact": "mail"
+    }
   },
   "hero": {
     "greeting": "Привет, я",
@@ -18,7 +26,14 @@
     "tagline": "6 лет создаю веб-продукты, которыми действительно пользуются.",
     "ctaPrimary": "Мои работы",
     "ctaSecondary": "Связаться",
-    "portraitAlt": "Шахзод Юлдошев"
+    "portraitAlt": "Шахзод Юлдошев",
+    "roles": [
+      "Инженер-программист",
+      "Full-Stack разработчик",
+      "Решаю задачи",
+      "Linux-энтузиаст"
+    ],
+    "rolesLabel": "роль"
   },
   "about": {
     "title": "Обо мне",
@@ -66,5 +81,8 @@
   },
   "language": {
     "label": "Язык"
+  },
+  "common": {
+    "empty": "Записей пока нет — скоро появятся."
   }
 }

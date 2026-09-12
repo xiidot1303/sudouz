@@ -18,7 +18,12 @@ export function Team() {
   const locale = useLocale();
 
   return (
-    <Section id="team" title={t("title")} subtitle={t("subtitle")}>
+    <Section
+      id="team"
+      title={t("title")}
+      subtitle={t("subtitle")}
+      command="groups shakhzod"
+    >
       <figure className="overflow-hidden rounded-xl border border-border">
         <Image
           src={company.teamPhoto}
