@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "title": "Shahzod Yo'ldoshev — Dasturchi",
+    "description": "Veb-mahsulotlar, API va dasturchi vositalarini yaratishda 6 yillik tajribaga ega dasturiy ta'minot muhandisi."
+  },
+  "nav": {
+    "about": "Men haqimda",
+    "projects": "Loyihalar",
+    "clients": "Mijozlar",
+    "experience": "Tajriba",
+    "contact": "Aloqa"
+  },
+  "hero": {
+    "greeting": "Salom, men",
+    "name": "Shahzod Yo'ldoshev",
+    "role": "Dasturiy ta'minot muhandisi",
+    "tagline": "Odamlar haqiqatan foydalanadigan veb-mahsulotlar yaratishda 6 yillik tajriba.",
+    "ctaPrimary": "Ishlarimni ko'rish",
+    "ctaSecondary": "Bog'lanish"
+  },
+  "about": {
+    "title": "Men haqimda",
+    "body": "Tez orada."
+  },
+  "projects": {
+    "title": "Loyihalar",
+    "subtitle": "Tanlangan ishlar",
+    "viewProject": "Loyihani ko'rish",
+    "viewCode": "Manba kodi"
+  },
+  "clients": {
+    "title": "Mijozlar",
+    "subtitle": "Men ishlagan odamlar va jamoalar"
+  },
+  "experience": {
+    "title": "Tajriba",
+    "present": "Hozirgi vaqt"
+  },
+  "contact": {
+    "title": "Bog'lanish",
+    "subtitle": "Frilans ishlar va qiziqarli hamkorliklar uchun ochiqman.",
+    "emailMe": "Email yuborish"
+  },
+  "footer": {
+    "rights": "Barcha huquqlar himoyalangan."
+  },
+  "theme": {
+    "toggle": "Mavzuni almashtirish",
+    "light": "Yorug'",
+    "dark": "Qorong'i",
+    "system": "Tizim"
+  },
+  "language": {
+    "label": "Til"
+  }
+}

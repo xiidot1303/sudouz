@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "title": "Shakhzod Yuldoshev — Software Engineer",
+    "description": "Software engineer with 6 years of experience building web products, APIs and developer tools."
+  },
+  "nav": {
+    "about": "About",
+    "projects": "Projects",
+    "clients": "Clients",
+    "experience": "Experience",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Hi, I'm",
+    "name": "Shakhzod Yuldoshev",
+    "role": "Software Engineer",
+    "tagline": "6 years of building web products that people actually use.",
+    "ctaPrimary": "View my work",
+    "ctaSecondary": "Get in touch"
+  },
+  "about": {
+    "title": "About me",
+    "body": "Content coming soon."
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Selected work",
+    "viewProject": "View project",
+    "viewCode": "Source code"
+  },
+  "clients": {
+    "title": "Clients",
+    "subtitle": "People and teams I've worked with"
+  },
+  "experience": {
+    "title": "Experience",
+    "present": "Present"
+  },
+  "contact": {
+    "title": "Get in touch",
+    "subtitle": "Open to freelance work and interesting collaborations.",
+    "emailMe": "Email me"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "label": "Language"
+  }
+}
