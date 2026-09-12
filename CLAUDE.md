@@ -47,7 +47,7 @@ src/
 │   ├── brand/logo.tsx       # SUDO wordmark
 │   ├── terminal/            # prompt, cursor, typing, terminal window
 │   ├── layout/              # site-header, site-footer, mobile-nav, nav-items
-│   ├── sections/            # hero, team, placeholder — one per page section
+│   ├── sections/            # hero, about, solutions, services, team, ...
 │   ├── ui/                  # button, container, section primitives
 │   ├── language-switcher.tsx
 │   ├── theme-provider.tsx
@@ -55,6 +55,8 @@ src/
 ├── content/                 # all site data, typed
 │   ├── site.ts              # name, domain, email, socials
 │   ├── company.ts           # Venons — employer facts, products, stats
+│   ├── services.ts          # what he builds (ERP, CRM, bots, ...)
+│   ├── solutions.ts         # what he fixes (warehouse, sales, HR, ...)
 │   ├── types.ts             # Project, Client, ExperienceItem, SkillGroup
 │   ├── projects.ts          # (empty — awaiting content)
 │   ├── clients.ts           # (empty — awaiting content)
@@ -148,8 +150,11 @@ mirrored in `siteConfig.colors` for non-CSS consumers (OG images, manifest).
 
 Mobile-first, verified in a real browser rather than assumed.
 
-- **Breakpoints.** Tailwind defaults. The layout shifts at `md` (768px), where
-  the hamburger is replaced by the inline nav.
+- **Breakpoints.** Tailwind defaults. The inline nav appears at `lg`
+  (1024px); below that the hamburger drawer is used. It was `md` until the
+  nav grew to eight items, which overflowed the header at 768px in all three
+  locales — Russian and Uzbek labels are longer than the English ones, so
+  **re-measure at 768/1024px in every locale after adding a nav item.**
 - **Gutters.** `Container` holds a 16px minimum side gutter at every width
   (`px-4 sm:px-6 lg:px-8`), capped at `max-w-5xl`.
 - **Typography.** The hero headline uses `clamp(2rem, 8vw, 4.5rem)` so it scales
@@ -249,6 +254,63 @@ labels. **Do not change it to a space**: the effect splits the key back apart,
 and a space would shred multi-word roles like "Software Engineer" into
 fragments.
 
+## What the site sells
+
+Shakhzod automates business processes and builds the software that runs them.
+The site is aimed at **business owners and managers**, not recruiters — the
+visitor usually arrives with an operational pain ("stock never matches the
+shelf"), not a technology shopping list.
+
+That decides the copy everywhere: **lead with the problem and the outcome,
+treat technology as proof rather than the pitch.** Avoid jargon in headings
+and symptoms; a reader who does not know what an ERP is must still recognise
+their own situation.
+
+### Two sections, deliberately distinct
+
+They look similar but answer different questions, and the overlap between
+them is the point — do not merge them.
+
+| Section     | Question               | File                     |
+| ----------- | ---------------------- | ------------------------ |
+| `Solutions` | *What can you fix?*    | `src/content/solutions.ts` |
+| `Services`  | *What do you build?*   | `src/content/services.ts`  |
+
+- **Solutions** are business problems: warehouse, sales, client, HR,
+  accounting, online store. Each has a `symptom` (the pain in the owner's own
+  words, rendered in quotes) and an `outcome` (what changes). Solutions come
+  first on the page — the visitor self-identifies before seeing technology.
+- **Services** are the systems: ERP, CRM, websites, Telegram bots, mobile
+  apps, e-commerce, AI integrations. Each carries a `summary` and concrete
+  `points` so the offer is not abstract.
+
+Every solution lists `delivers: string[]` — service slugs that link the two
+sections together. **Keep those slugs valid**; an unknown slug is silently
+skipped, so the connection would vanish without any error.
+
+### Enquiry CTAs
+
+Each solution card links to `mailto:` with the subject prefilled
+(`"<ctaSubject>: <solution title>"`, localized), so enquiries arrive already
+saying which problem they are about. If a contact form is ever added, keep
+this pre-qualification.
+
+### Icons
+
+Content files name icons as strings (`icon: "Warehouse"`), resolved by
+[src/components/ui/icon.tsx](src/components/ui/icon.tsx). This keeps
+`src/content` free of component imports. **Add the icon to that map** when
+introducing a new name — unmapped names silently fall back to `Boxes`.
+
+### Adding a service or solution
+
+1. Append to `services.ts` or `solutions.ts` with all three locales filled.
+2. Register the icon in `icon.tsx` if it is new.
+3. For a solution, point `delivers` at existing service slugs.
+4. Update the count in the About stat row if the service total changed.
+
+No component edits are needed — both sections render from the arrays.
+
 ## Shakhzod and Venons
 
 Two distinct identities live on this site; keep them separate.
@@ -309,16 +371,16 @@ if the final domain differs, since it seeds `metadataBase`, the sitemap and robo
 
 ## Status
 
-The shell, brand system, terminal theme, and the hero and team sections are
-complete and verified: `pnpm build` and `pnpm lint` pass, and the layout,
-typing animation and all three locales were checked in a real browser at
-320/390/768/1440px in both themes. About, Projects, Clients and Experience are
-still placeholders — their `src/content/*` modules are intentionally empty
-arrays awaiting real material.
+The shell, brand system, terminal theme, and the Hero, About, Solutions,
+Services and Team sections are complete and verified: `pnpm build` and
+`pnpm lint` pass, and the layout, typing animation, offering content and all
+three locales were checked in a real browser at 320/390/768/1440px in both
+themes. Projects, Clients and Experience are still placeholders — their
+`src/content/*` modules are intentionally empty arrays awaiting real material.
 
 ### Open items
 
-- [ ] Real content: projects, clients, experience, skills, about text
+- [ ] Real content: projects, clients, experience, skills
 - [ ] Shakhzod's job title at Venons and the year he joined (see
       "Shakhzod and Venons")
 - [ ] OG image, favicon in brand colors
@@ -326,9 +388,41 @@ arrays awaiting real material.
 - [ ] Confirm the production domain
 - [ ] Per-project detail pages (`/[locale]/projects/[slug]`), if wanted
 - [ ] Optional: an interactive terminal section visitors can type into
-      (deferred — the visual theme was wanted first)
+- [ ] Consider a contact form (keeping the per-solution pre-qualification)
 
 ## Changelog
+
+### 2026-09-13 — Services, solutions and the About copy
+
+- Reframed the site around what a business visitor needs: **problem first,
+  technology as proof.** The audience is business owners, not recruiters.
+- Added [src/content/solutions.ts](src/content/solutions.ts) — six business
+  problems (warehouse, sales, clients, HR, accounting, online store), each
+  with a `symptom` in the owner's own words and the `outcome` that follows.
+- Added [src/content/services.ts](src/content/services.ts) — seven systems
+  (ERP, CRM, websites, Telegram bots, mobile apps, e-commerce, AI), each with
+  a summary and concrete deliverables.
+- Solutions render before Services so visitors self-identify before meeting
+  jargon; each solution links to the services that deliver it via `delivers`.
+- Each solution card carries a `mailto:` CTA with a localized subject
+  prefilled, so enquiries arrive already qualified.
+- Wrote the real About section: a lead line, a paragraph on how the work
+  actually starts, and a closing invitation, in all three locales.
+- Added [src/components/ui/icon.tsx](src/components/ui/icon.tsx) so content
+  files can name icons as strings without importing components.
+- Updated the SEO title and description in all three locales to describe
+  business automation rather than a generic engineer profile.
+- **Fixed:** the nav grew to eight items and overflowed the header at 768px in
+  every locale. The inline nav now starts at `lg` (1024px) and tablets use the
+  drawer; measured headroom in all three locales afterwards.
+- Verified: responsive (56 checks), typing, a new content suite (7 services,
+  6 solutions, 6 prefilled CTAs, no untranslated leakage, no page errors per
+  locale), and the locale suite at four widths.
+- **Test-only fix:** the locale suite reported every image broken. The site
+  was fine — the helper scrolled by `document.body.scrollHeight` in a loop
+  that never terminated, because the page grows as images load, so the
+  assertion ran before lazy images loaded. It now walks the image elements,
+  which is bounded.
 
 ### 2026-09-13 — Terminal and shell theme
 

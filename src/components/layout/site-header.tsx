@@ -22,7 +22,8 @@ export async function SiteHeader() {
           <Logo />
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex lg:gap-8">
+        {/* Eight items do not fit at 768px, so the inline nav starts at lg. */}
+        <nav className="hidden items-center gap-5 lg:flex xl:gap-7">
           {navItems.map((item) => (
             <Link
               key={item.key}

@@ -1,6 +1,8 @@
 /** Shared by the desktop nav and the mobile drawer. */
 export const navItems = [
   { key: "about", href: "/#about" },
+  { key: "services", href: "/#services" },
+  { key: "solutions", href: "/#solutions" },
   { key: "projects", href: "/#projects" },
   { key: "clients", href: "/#clients" },
   { key: "team", href: "/#team" },

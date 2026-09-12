@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Shahzod Yo'ldoshev — Dasturchi",
-    "description": "Veb-mahsulotlar, API va dasturchi vositalarini yaratishda 6 yillik tajribaga ega dasturiy ta'minot muhandisi."
+    "title": "Shahzod Yo'ldoshev — Biznes avtomatlashtirish va dasturiy ta'minot",
+    "description": "Biznes jarayonlarini avtomatlashtiraman: ombor, savdo, mijoz, HR va buxgalteriya uchun ERP, CRM, onlayn do'kon, Telegram bot va mobil ilovalar."
   },
   "nav": {
     "about": "Men haqimda",
@@ -16,8 +16,12 @@
       "clients": "cat clients.txt",
       "team": "groups",
       "experience": "history",
-      "contact": "mail"
-    }
+      "contact": "mail",
+      "services": "which",
+      "solutions": "man solutions"
+    },
+    "services": "Xizmatlar",
+    "solutions": "Yechimlar"
   },
   "hero": {
     "greeting": "Salom, men",
@@ -37,7 +41,24 @@
   },
   "about": {
     "title": "Men haqimda",
-    "body": "Tez orada."
+    "lead": "Men biznes jarayonlarini avtomatlashtiraman va ularni boshqaradigan dasturlarni yarataman.",
+    "body": "Olti yildan beri qo'lda va Excel'da yuritiladigan ishlarni odamlar haqiqatan foydalanadigan tizimlarga aylantiraman. Ishim ko'pincha bir xil boshlanadi: biznes o'sgan, eski hisob usuli ishlamay qo'ygan va raqamlarga endi hech kim ishonmaydi. Men ish aslida qanday ketayotganini o'rganaman, so'ng uni tuzatadigan eng sodda tizimni quraman va ishga tushgandan keyin ham takomillashtiraman.",
+    "closing": "Agar biznesingizda biror narsa xotira, qog'oz yoki boshqa hech kim tushunmaydigan jadval asosida ishlayotgan bo'lsa, men odatda o'sha yerdan boshlayman.",
+    "yearsLabel": "Yillik tajriba",
+    "servicesLabel": "Tizim turlari"
+  },
+  "services": {
+    "title": "Men nima yarataman",
+    "subtitle": "Natija ortidagi tizimlar",
+    "deliveredWith": "Odatda shular bilan"
+  },
+  "solutions": {
+    "title": "Men nimani hal qila olaman",
+    "subtitle": "O'zingiznikiga o'xshash muammoni toping",
+    "problem": "Tanish tuyuladimi?",
+    "result": "Nima o'zgaradi",
+    "cta": "Muhokama qilamiz",
+    "ctaSubject": "Savol"
   },
   "projects": {
     "title": "Loyihalar",

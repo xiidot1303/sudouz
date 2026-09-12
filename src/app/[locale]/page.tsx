@@ -1,7 +1,10 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Hero } from "@/components/sections/hero";
+import { About } from "@/components/sections/about";
 import { Placeholder } from "@/components/sections/placeholder";
+import { Services } from "@/components/sections/services";
+import { Solutions } from "@/components/sections/solutions";
 import { Team } from "@/components/sections/team";
 import { Section } from "@/components/ui/section";
 import { siteConfig } from "@/content/site";
@@ -21,9 +24,11 @@ export default async function HomePage({
     <>
       <Hero />
 
-      <Section id="about" title={t("about.title")} command="whoami --verbose">
-        <Placeholder label={t("about.body")} command="cat about.md" />
-      </Section>
+      <About />
+
+      <Solutions />
+
+      <Services />
 
       <Section
         id="projects"

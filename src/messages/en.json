@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Shakhzod Yuldoshev — Software Engineer",
-    "description": "Software engineer with 6 years of experience building web products, APIs and developer tools."
+    "title": "Shakhzod Yuldoshev — Business Automation & Software Development",
+    "description": "I automate business processes and build ERP, CRM, e-commerce, Telegram bots and mobile apps for warehouse, sales, client, HR and accounting management."
   },
   "nav": {
     "about": "About",
@@ -16,8 +16,12 @@
       "clients": "cat clients.txt",
       "team": "groups",
       "experience": "history",
-      "contact": "mail"
-    }
+      "contact": "mail",
+      "services": "which",
+      "solutions": "man solutions"
+    },
+    "services": "Services",
+    "solutions": "Solutions"
   },
   "hero": {
     "greeting": "Hi, I'm",
@@ -37,7 +41,24 @@
   },
   "about": {
     "title": "About me",
-    "body": "Content coming soon."
+    "lead": "I automate business processes and build the software that runs them.",
+    "body": "For six years I have been turning manual, spreadsheet-driven operations into systems people actually use. Most of my work starts the same way: a business is growing, the old way of tracking things has stopped working, and nobody trusts the numbers any more. I map how the work really happens, then build the smallest system that fixes it — and keep improving it once it is live.",
+    "closing": "If something in your business runs on memory, paper or a spreadsheet nobody else understands, that is usually where I start.",
+    "yearsLabel": "Years of experience",
+    "servicesLabel": "Types of systems built"
+  },
+  "services": {
+    "title": "What I build",
+    "subtitle": "The systems behind the results",
+    "deliveredWith": "Typically built with"
+  },
+  "solutions": {
+    "title": "What I can fix",
+    "subtitle": "Find the problem that sounds like yours",
+    "problem": "Sounds familiar?",
+    "result": "What changes",
+    "cta": "Discuss this",
+    "ctaSubject": "Enquiry about"
   },
   "projects": {
     "title": "Projects",
