@@ -30,15 +30,15 @@
     "greeting": "Hi, I'm",
     "name": "Shakhzod Yuldoshev",
     "role": "Software Engineer",
-    "tagline": "6 years of building web products that people actually use.",
+    "tagline": "6 years of turning manual work into software that people actually use.",
     "ctaPrimary": "View my work",
     "ctaSecondary": "Get in touch",
     "portraitAlt": "Shakhzod Yuldoshev",
     "roles": [
       "Software Engineer",
+      "Business Automation Engineer",
       "Full-Stack Developer",
-      "Problem Solver",
-      "Linux Enthusiast"
+      "Problem Solver"
     ],
     "rolesLabel": "role"
   },

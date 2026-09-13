@@ -30,15 +30,15 @@
     "greeting": "Salom, men",
     "name": "Shahzod Yo'ldoshev",
     "role": "Dasturiy ta'minot muhandisi",
-    "tagline": "Odamlar haqiqatan foydalanadigan veb-mahsulotlar yaratishda 6 yillik tajriba.",
+    "tagline": "6 yildan beri qo'lda bajariladigan ishni odamlar haqiqatan foydalanadigan dasturlarga aylantiraman.",
     "ctaPrimary": "Ishlarimni ko'rish",
     "ctaSecondary": "Bog'lanish",
     "portraitAlt": "Shahzod Yo'ldoshev",
     "roles": [
       "Dasturiy ta'minot muhandisi",
+      "Biznes avtomatlashtirish muhandisi",
       "Full-Stack dasturchi",
-      "Muammolarni hal qiluvchi",
-      "Linux ishqibozi"
+      "Muammolarni hal qiluvchi"
     ],
     "rolesLabel": "lavozim"
   },

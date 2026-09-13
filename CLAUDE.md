@@ -251,8 +251,12 @@ Animation is real motion, so it is gated:
 - `TypingRole` renders the full role list in an `sr-only` node and marks the
   animated copy `aria-hidden`, so the roles are announced once instead of on
   every keystroke.
-- The role line reserves height (`min-h`) so the layout does not shift as
-  words change length.
+- The role line reserves height and, below `sm`, the typed text sits in its
+  own block. Both matter: the longest roles wrap on narrow screens, and
+  without the reservation the hero buttons jump by tens of pixels as words are
+  typed and deleted — under the reader's thumb on a phone. **After changing
+  `hero.roles`, re-measure the CTA position while the animation runs**, in
+  every locale; a role that fits in English may wrap in Russian or Uzbek.
 
 ### Gotcha: the typewriter dependency key
 
@@ -387,6 +391,10 @@ substitutes for brand**.
   the specifics.
 - **No invented proof.** Never add prices, client names, project counts, years
   or statistics that have not been confirmed.
+- **Do not narrow the offer.** Shakhzod is not only a web developer: the site
+  covers ERP, CRM, mobile apps, Telegram bots, e-commerce and AI. Copy that
+  says "web" or "websites" where it means "software" undersells him — the hero
+  tagline made this mistake and was rewritten.
 
 ### Banned phrases
 
@@ -517,6 +525,28 @@ were made on his behalf and should be confirmed before the site goes live:
 - [ ] Optional: an interactive terminal section
 
 ## Changelog
+
+### 2026-09-13 — Hero tagline and roles widened past web
+
+- Rewrote the hero tagline in all three locales. It read "6 years of building
+  web products…", which contradicted the rest of the site — Shakhzod builds
+  ERP, CRM, mobile apps, bots and AI integrations, not only websites. It now
+  reads "6 years of turning manual work into software that people actually
+  use."
+- Broadened the cycling roles: **Business Automation Engineer** replaces
+  Linux Enthusiast, so the list leads with what he sells rather than what he
+  runs on his laptop.
+- **Fixed a layout shift the longer roles exposed.** The role line reserved
+  only one line of height, so as "Business Automation Engineer" typed out and
+  wrapped, the hero buttons moved 44px — on a phone, under the reader's
+  thumb. The typed text now sits in its own block below `sm` with reserved
+  height. Measured at 0px shift across 4 widths × 3 locales, down from 44px.
+- **Test-only fix:** the content suite still expected the pre-detail-page
+  structure — service headings outside a link, and mailto CTAs on the home
+  page rather than links to detail pages. Expectations updated; the site was
+  rendering all 7 services and 6 solutions correctly throughout.
+- Note: the hero portrait was replaced upstream (now 1066×1475, black shirt).
+  Nothing in the layout needed changing.
 
 ### 2026-09-13 — Detail pages, four-item nav and real copy
 

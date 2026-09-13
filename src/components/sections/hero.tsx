@@ -39,11 +39,14 @@ export function Hero() {
               {t("name")}
             </h1>
 
-            {/* The role line types itself out, cycling through the list. */}
-            <p className="mt-4 flex min-h-[1.75rem] flex-wrap items-center gap-x-2 font-mono text-base text-muted-foreground sm:min-h-[2rem] sm:text-lg lg:text-xl">
+            {/* The role line types itself out, cycling through the list.
+                The typed text sits in its own block so the label cannot
+                push it into an extra line, and the block reserves two lines
+                of height — otherwise the CTA below jumps as words grow. */}
+            <p className="mt-4 font-mono text-base text-muted-foreground sm:text-lg lg:text-xl">
               <span className="text-accent-text">{t("rolesLabel")}</span>
-              <span className="text-muted-foreground">=</span>
-              <span className="text-foreground">
+              <span className="mx-2 text-muted-foreground">=</span>
+              <span className="block min-h-[3rem] text-foreground sm:inline sm:min-h-0">
                 <TypingRole roles={roles} />
               </span>
             </p>
