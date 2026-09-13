@@ -59,6 +59,7 @@ src/
 │   ├── services.ts          # what he builds (ERP, CRM, bots, ...)
 │   ├── solutions.ts         # what he fixes (warehouse, sales, HR, ...)
 │   ├── detail/              # long-form copy, one file per page
+│   ├── contact.ts           # every contact channel — the single source
 │   ├── guarantees.ts        # the four confirmed commitments + integrations
 │   ├── process.ts           # the six delivery steps
 │   ├── types.ts             # Project, Client, ExperienceItem, SkillGroup
@@ -423,6 +424,44 @@ Pricing is intentionally not published. The CTA offers a free consultation and
 a written scope instead. If real figures are supplied later, a price row on
 each detail page is the highest-converting place for them.
 
+## Contact and calls to action
+
+**Every call to action opens Telegram.** Not email — Shakhzod does not use it
+much, and Telegram is what business buyers in the region expect. This is a
+standing rule: a new CTA that opens `mailto:` is a bug.
+
+[src/content/contact.ts](src/content/contact.ts) is the single source for
+every channel. Nothing else should hardcode a handle, number or profile URL.
+
+| Channel   | Where it appears                                  |
+| --------- | ------------------------------------------------- |
+| Telegram  | Every CTA, contact section (highlighted), footer  |
+| WhatsApp  | Contact section (second primary), footer          |
+| Phone     | Contact section, footer                           |
+| Email     | Listed as a channel only — never a CTA            |
+| LinkedIn / GitHub / Instagram | Contact section, footer        |
+
+### Rules
+
+- **Telegram cannot prefill a topic.** A `mailto:` can carry `?subject=`;
+  `t.me` has no equivalent. The CTA's own label must carry the context
+  ("Ask on Telegram"), so an enquiry is not anonymous about which page it came
+  from. Do not add a fake query string to a `t.me` URL — it is ignored.
+- **The phone number is stored once**, as digits, and `tel:` and `wa.me` are
+  derived from it. `wa.me` takes no `+` and no spaces.
+- **External links need `target="_blank"` and `rel="noreferrer noopener"`.**
+  `tel:` and `mailto:` must not open in a new tab.
+- `siteConfig.email` stays only for metadata and structured data.
+
+### Brand icons
+
+lucide-react v1 dropped its brand icons (`Github`, `Linkedin`, `Instagram` no
+longer exist). Rather than substitute an unrecognisable generic icon, the
+marks live as inline SVG paths in
+[brand-icons.tsx](src/components/ui/brand-icons.tsx), from Simple Icons (CC0).
+[Icon](src/components/ui/icon.tsx) checks the brand map first, then lucide.
+**Do not import a brand icon from lucide-react — the build fails.**
+
 ## Shakhzod and Venons
 
 Two distinct identities live on this site; keep them separate.
@@ -447,11 +486,10 @@ products, 600+ users). Descriptions are translated into all three locales.
 
 If these numbers go stale, `company.ts` is the single place to edit.
 
-**Not yet recorded:** Shakhzod's job title at Venons and his start year. He
-opted to leave the title generic for now, so the site says "Software Engineer"
-and the team section does not claim a role. Add a `role` field to `company.ts`
-and a `since` value when he provides them — the `team.since` message key is
-already translated and waiting.
+**Job title:** his Telegram bio reads "IT entrepreneur | CTO at venons.uz",
+so CTO appears to be the role. He has not confirmed this directly and the site
+does not yet claim it — ask before adding it to `company.ts`. His start year is
+still unknown; the `team.since` message key is translated and waiting.
 
 ### Images
 
@@ -510,13 +548,14 @@ were made on his behalf and should be confirmed before the site goes live:
       bar. That is a real commitment.
 - [ ] **Native review of the Uzbek and Russian copy** — written as genuine
       translations, but no native speaker has signed them off
+- [ ] **Is CTO the right title?** His Telegram bio says "CTO at venons.uz";
+      the site does not claim it yet
 
 ### Open items
 
 - [ ] Real content: projects, clients, experience, skills
-- [ ] Shakhzod's job title at Venons and the year he joined
+- [ ] The year he joined Venons (title is likely CTO — confirm)
 - [ ] OG image, favicon in brand colors
-- [ ] Social links in `siteConfig.socials`
 - [ ] Confirm the production domain
 - [ ] Optional: publish price floors — research found visible pricing is the
       strongest trust signal for a solo developer, and each detail page has a
@@ -525,6 +564,37 @@ were made on his behalf and should be confirmed before the site goes live:
 - [ ] Optional: an interactive terminal section
 
 ## Changelog
+
+### 2026-09-13 — Real contact details, every CTA moved to Telegram
+
+- Added [src/content/contact.ts](src/content/contact.ts) with Shakhzod's real
+  channels: Telegram `@XIIdot1303`, phone/WhatsApp +998 33 555 13 03, email
+  `xii1303@inbox.ru`, LinkedIn, GitHub and Instagram.
+- **Repointed every call to action from email to Telegram.** He does not use
+  email much, and the earlier research had already found Telegram and WhatsApp
+  are the expected channels in Central Asia — the mailto CTAs were a mistake.
+  Five links changed: the hero, both detail-page CTAs, the home-page contact
+  button and the footer.
+- Replaced the single email button with a proper contact section: Telegram
+  highlighted as primary with WhatsApp beside it, then phone, email, LinkedIn,
+  GitHub and Instagram. The footer gained icon links to all seven.
+- Rewrote the CTA labels to name the channel ("Ask on Telegram", "Message on
+  Telegram"), since Telegram cannot prefill a subject the way `mailto:` could.
+  Removed the now-unused `detail.enquirySubject` key.
+- Corrected `siteConfig.email` from the company address to his personal one,
+  and removed the empty `socials` block that `contact.ts` now supersedes.
+- **Added inline brand icons.** lucide-react v1 no longer exports `Github`,
+  `Linkedin` or `Instagram`, and the build failed on import. Rather than use
+  an unrecognisable generic icon for a social link, the marks are inline SVG
+  paths in [brand-icons.tsx](src/components/ui/brand-icons.tsx).
+- Added a contact-link suite asserting exact URLs on six pages across three
+  locales, that no CTA is a `mailto:` other than the email channel itself, and
+  that every external link carries `rel=noopener`. Also confirmed the Telegram,
+  GitHub and Instagram profiles resolve (LinkedIn returns 999 to non-browsers,
+  which is its normal anti-scraping response, not a broken link).
+- **Test-only fix:** the content suite still required a prefilled mailto CTA
+  on detail pages — exactly what was removed. It now checks for Telegram CTAs
+  and asserts no mailto CTA remains.
 
 ### 2026-09-13 — Hero tagline and roles widened past web
 

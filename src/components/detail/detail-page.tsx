@@ -5,7 +5,7 @@ import { Link } from "@/i18n/navigation";
 import type { DetailContent } from "@/content/detail";
 import { guarantees, integrations } from "@/content/guarantees";
 import { processSteps } from "@/content/process";
-import { siteConfig } from "@/content/site";
+import { contact } from "@/content/contact";
 import { Container } from "@/components/ui/container";
 import { Icon } from "@/components/ui/icon";
 import { buttonVariants } from "@/components/ui/button";
@@ -78,11 +78,12 @@ export async function DetailPage({
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
-              href={`mailto:${siteConfig.email}?subject=${encodeURIComponent(
-                `${t("enquirySubject")}: ${title}`,
-              )}`}
+              href={contact.telegram.url}
+              target="_blank"
+              rel="noreferrer noopener"
               className={buttonVariants({ variant: "brand", size: "lg" })}
             >
+              <Icon name="Telegram" className="size-4" />
               {t("ctaPrimary")} <ArrowRight />
             </a>
             <Link
@@ -319,11 +320,12 @@ export async function DetailPage({
               {t("finalCtaBody")}
             </p>
             <a
-              href={`mailto:${siteConfig.email}?subject=${encodeURIComponent(
-                `${t("enquirySubject")}: ${title}`,
-              )}`}
+              href={contact.telegram.url}
+              target="_blank"
+              rel="noreferrer noopener"
               className={`${buttonVariants({ variant: "brand", size: "lg" })} mt-6`}
             >
+              <Icon name="Telegram" className="size-4" />
               {t("ctaPrimary")} <ArrowRight />
             </a>
             <p className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-muted-foreground">

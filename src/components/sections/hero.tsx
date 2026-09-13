@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { Link } from "@/i18n/navigation";
-import { siteConfig } from "@/content/site";
+import { contact } from "@/content/contact";
 import { Container } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { Prompt, TypingRole } from "@/components/terminal";
 
 export function Hero() {
@@ -63,10 +64,12 @@ export function Hero() {
                 {t("ctaPrimary")} <ArrowRight />
               </Link>
               <a
-                href={`mailto:${siteConfig.email}`}
+                href={contact.telegram.url}
+                target="_blank"
+                rel="noreferrer noopener"
                 className={buttonVariants({ variant: "outline", size: "lg" })}
               >
-                <Mail /> {t("ctaSecondary")}
+                <Icon name="Telegram" className="size-4" /> {t("ctaSecondary")}
               </a>
             </div>
           </div>

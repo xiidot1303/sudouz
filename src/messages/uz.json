@@ -32,7 +32,7 @@
     "role": "Dasturiy ta'minot muhandisi",
     "tagline": "6 yildan beri qo'lda bajariladigan ishni odamlar haqiqatan foydalanadigan dasturlarga aylantiraman.",
     "ctaPrimary": "Ishlarimni ko'rish",
-    "ctaSecondary": "Bog'lanish",
+    "ctaSecondary": "Xabar yozish",
     "portraitAlt": "Shahzod Yo'ldoshev",
     "roles": [
       "Dasturiy ta'minot muhandisi",
@@ -92,8 +92,8 @@
   },
   "contact": {
     "title": "Bog'lanish",
-    "subtitle": "Frilans ishlar va qiziqarli hamkorliklar uchun ochiqman.",
-    "emailMe": "Email yuborish"
+    "subtitle": "Men bilan bog'lanishning eng tez yo'li — Telegram. Odatda o'sha kuni javob beraman.",
+    "emailMe": "Telegramda yozish"
   },
   "footer": {
     "rights": "Barcha huquqlar himoyalangan."
@@ -111,9 +111,8 @@
     "empty": "Hozircha yozuvlar yo'q — tez orada."
   },
   "detail": {
-    "enquirySubject": "Savol",
-    "ctaPrimary": "Bepul konsultatsiya olish",
-    "ctaSecondary": "Aloqa ma'lumotlari",
+    "ctaPrimary": "Telegramda so'rash",
+    "ctaSecondary": "Barcha aloqa ma'lumotlari",
     "microFree": "Bepul konsultatsiya",
     "microNoCommitment": "Majburiyatsiz",
     "microWritten": "Yozma hajm va narx",

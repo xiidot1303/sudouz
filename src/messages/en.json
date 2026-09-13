@@ -32,7 +32,7 @@
     "role": "Software Engineer",
     "tagline": "6 years of turning manual work into software that people actually use.",
     "ctaPrimary": "View my work",
-    "ctaSecondary": "Get in touch",
+    "ctaSecondary": "Message me",
     "portraitAlt": "Shakhzod Yuldoshev",
     "roles": [
       "Software Engineer",
@@ -92,8 +92,8 @@
   },
   "contact": {
     "title": "Get in touch",
-    "subtitle": "Open to freelance work and interesting collaborations.",
-    "emailMe": "Email me"
+    "subtitle": "Telegram is the fastest way to reach me — usually the same day.",
+    "emailMe": "Message on Telegram"
   },
   "footer": {
     "rights": "All rights reserved."
@@ -111,9 +111,8 @@
     "empty": "No entries yet — content coming soon."
   },
   "detail": {
-    "enquirySubject": "Enquiry",
-    "ctaPrimary": "Request a free consultation",
-    "ctaSecondary": "See contact details",
+    "ctaPrimary": "Ask on Telegram",
+    "ctaSecondary": "All contact details",
     "microFree": "Free consultation",
     "microNoCommitment": "No commitment",
     "microWritten": "Written scope and price",

@@ -9,7 +9,9 @@ export const siteConfig = {
   shortName: "Shakhzod",
   domain: "sudo.uz",
   url: "https://sudo.uz",
-  email: "venons.ltd@gmail.com",
+  /** Personal address. Contact details live in `contact.ts`; this is here
+   *  for metadata and structured data only. */
+  email: "xii1303@inbox.ru",
   yearsOfExperience: 6,
   /**
    * Brand colors, kept here for reference and for non-CSS consumers
@@ -19,12 +21,6 @@ export const siteConfig = {
   colors: {
     ink: "#231f20",
     mint: "#1feace",
-  },
-  socials: {
-    github: "",
-    linkedin: "",
-    telegram: "",
-    x: "",
   },
 } as const;
 
